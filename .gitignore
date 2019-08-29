@@ -5,3 +5,5 @@
 *.tpw
 *.tws
 *.dfPackage
+target
+.settings
