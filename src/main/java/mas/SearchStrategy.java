@@ -20,15 +20,14 @@ public class SearchStrategy implements PathStrategy {
      * with manhattan-distance as extra heuristic
      */
     public Path generatePath(Grid grid, Location from, Location to) {
-        List locationList = new ArrayList();
-        TreeMap queue = new TreeMap();
+        List<Location> locationList = new ArrayList<>();
+        TreeMap<Integer, List<Location>> queue = new TreeMap<>();
         locationList.add(from);
-        int dist = from.distance(to);
-        queue.put(new Integer(0), locationList);
+        queue.put(Integer.valueOf(0), locationList);
         while (!queue.isEmpty()) {
-            Integer key = (Integer)queue.firstKey();
-            List path = (List)queue.remove(key);
-            Location last = (Location)path.get(path.size() - 1);
+            Integer key = queue.firstKey();
+            List<Location> path = queue.remove(key);
+            Location last = path.get(path.size() - 1);
             if (last.equals(to)) {
                 return createPath(grid, path);
             }
@@ -43,10 +42,10 @@ public class SearchStrategy implements PathStrategy {
     /*
      * check for a loopy path
      */
-    private boolean hasLoop(List l, Location nextLoc) {
-        Iterator it = l.iterator();
+    private boolean hasLoop(List<Location> l, Location nextLoc) {
+        Iterator<Location> it = l.iterator();
         while(it.hasNext()) {
-            Location loc = (Location)it.next();
+            Location loc = it.next();
             if (loc.equals(nextLoc)) {
                 return true;
             }
@@ -58,19 +57,19 @@ public class SearchStrategy implements PathStrategy {
      * generate a new path in the specified direction.
      * If the path is allowed, it is added to the queue
      */
-    private void generateNext(Grid grid, Location to, List path, int dir, TreeMap queue) {
+    private void generateNext(Grid grid, Location to, List<Location> path, int dir, TreeMap<Integer, List<Location>> queue) {
         Location last = (Location)path.get(path.size() - 1);
         Move m = new Move(dir);
         Location nextLoc = last.nextLocation(m);
         if (nextLoc.equals(to) || grid.possibleMove(last, m)) {
             /* this move is allowed, it leads to the goal,
              * or the way is clear */
-            List newPath = new ArrayList(path);
+            List<Location> newPath = new ArrayList<>(path);
             if (!hasLoop(newPath, nextLoc)) {
 	            newPath.add(nextLoc);
 	            /* calculate the cost + heuristic value */
 	            int dd = newPath.size() + nextLoc.distance(to);
-	            queue.put(new Integer(dd), newPath);
+	            queue.put(Integer.valueOf(dd), newPath);
             }
         }       
     }
@@ -79,12 +78,12 @@ public class SearchStrategy implements PathStrategy {
      * translate a list of Locations to a Path 
      * (a list of Moves)
      */
-    private Path createPath(Grid grid, List l) {
+    private Path createPath(Grid grid, List<Location> l) {
         Path path = new Path();
-        Iterator it = l.iterator();
-        Location last = (Location)it.next();
+        Iterator<Location> it = l.iterator();
+        Location last = it.next();
         while (it.hasNext()) {
-            Location loc = (Location)it.next();
+            Location loc = it.next();
             Move m = last.getMove(loc);
             path.addMove(m);
             last = loc;

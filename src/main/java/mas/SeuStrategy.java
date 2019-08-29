@@ -15,9 +15,9 @@ public class SeuStrategy implements HoleStrategy {
         float maxSeu = 0;
         Hole maxHole = null;
         
-        Iterator it = grid.getHoles().iterator();
+        Iterator<Hole> it = grid.getHoles().iterator();
         while(it.hasNext()) {
-            Hole h = (Hole)it.next();
+            Hole h = it.next();
             float seu = calculateSEU(grid, h, agent);
             if (seu > maxSeu) {
                 maxSeu = seu;

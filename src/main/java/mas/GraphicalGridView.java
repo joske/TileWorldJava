@@ -20,6 +20,8 @@ import javax.swing.JPanel;
  */
 public class GraphicalGridView extends JFrame implements GridView {
 
+    private static final long serialVersionUID = 1L;
+
     protected static final int SLEEP_TIME = 200;
     
     private GraphicalGridController controller;
@@ -54,6 +56,7 @@ public class GraphicalGridView extends JFrame implements GridView {
     
     class ScorePanel extends JPanel {
         
+        private static final long serialVersionUID = 1L;
         private Grid grid;
         private Dimension size = new Dimension(120, 100); 
         
@@ -75,9 +78,9 @@ public class GraphicalGridView extends JFrame implements GridView {
             g.drawString(scores, center, y);
             g.setFont(normal);
             y += 40;
-            Iterator it = grid.getAgents().iterator();
+            Iterator<Agent> it = grid.getAgents().iterator();
             while (it.hasNext()) {
-                Agent a = (Agent)it.next();
+                Agent a = it.next();
                 String s = "Agent " + a.getId() + ": " + a.getScore();
                 g.setColor(getAgentColor(a.getId()));
                 g.drawString(s, x, y);
@@ -90,6 +93,7 @@ public class GraphicalGridView extends JFrame implements GridView {
     
     class GridPanel extends JPanel {
 
+        private static final long serialVersionUID = 1L;
         private static final int magnifier = 15;
         private Grid grid;     
         
@@ -175,6 +179,7 @@ public class GraphicalGridView extends JFrame implements GridView {
     }
     
     class GraphicalGridController extends JPanel implements GridController {
+        private static final long serialVersionUID = 1L;
         JButton next = new JButton("next");
         JButton play = new JButton("play");
         JButton stop = new JButton("stop");

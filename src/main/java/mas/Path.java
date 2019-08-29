@@ -10,11 +10,11 @@ import java.util.List;
  */
 public class Path {
     
-    public List getMoves() {
+    public List<Move> getMoves() {
         return moves;
     }
 
-    public void setMoves(List moves) {
+    public void setMoves(List<Move> moves) {
         this.moves = moves;
     }
     
@@ -22,13 +22,13 @@ public class Path {
         moves.add(m);
     }
 
-    private List moves = new ArrayList();
+    private List<Move> moves = new ArrayList<>();
     
     public String toString() {
-        Iterator it = moves.iterator();
+        Iterator<Move> it = moves.iterator();
         StringBuffer sb = new StringBuffer();
         while (it.hasNext()) {
-            Move m = (Move) it.next();
+            Move m = it.next();
             sb.append(m.toString()).append("->");
         }
         return sb.toString();
