@@ -17,7 +17,7 @@ public class PlanAheadAgent extends Agent {
         this.grid = grid;
         this.id = id;
         this.holeStrategy = new SeuStrategy();
-        this.pathStrategy = new SearchStrategy();
+        this.pathStrategy = new AStarStrategy();
         this.tileStrategy = new ClosestTileStrategy();
     }
 

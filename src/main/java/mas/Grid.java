@@ -45,12 +45,12 @@ public class Grid {
         for (int i = 1; i <= numAgents; i++) {
             Agent a;
             Location loc = randomFreeLocation();
-//            a = new PlanAheadAgent(this, loc, i);
-            if (i%2 == 0) {
-                a = new DynamicAgent(this, loc, i);
-            } else {
-                a = new PlanAheadAgent(this, loc, i);
-            }
+           a = new PlanAheadAgent(this, loc, i);
+            // if (i%2 == 0) {
+            //     a = new DynamicAgent(this, loc, i);
+            // } else {
+            //     a = new PlanAheadAgent(this, loc, i);
+            // }
             a.setGrid(this);
             agents.add(a);
             objects[loc.row][loc.col] = a;
@@ -73,10 +73,10 @@ public class Grid {
         int row = loc.row;
         int col = loc.col;
         
-        if (row >= rows || row <= 0) {
+        if (row >= rows || row < 0) {
             return false;
         }
-        if (col <= 0 || col >= cols) {
+        if (col < 0 || col >= cols) {
             return false;
         }     
         return true;
@@ -228,6 +228,11 @@ public class Grid {
 
     public List<Agent> getAgents(){
         return agents;
+    }
+
+    /* unit test only */    
+    void setObject(GridObject o, int row, int col) {
+        objects[row][col] = o;
     }
 
     public GridObject getObjectAt(int row, int col) {

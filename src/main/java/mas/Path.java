@@ -9,6 +9,13 @@ import java.util.List;
  * @author jos
  */
 public class Path {
+
+    public Path() {
+    }
+
+    public Path(List<Move> moves) {
+        this.moves = moves;
+    }
     
     public List<Move> getMoves() {
         return moves;

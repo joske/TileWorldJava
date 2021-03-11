@@ -7,3 +7,5 @@
 *.dfPackage
 target
 .settings
+*.DS_Store
+.gitignore

@@ -93,7 +93,7 @@ public class Location {
     }
     
     public String toString() {
-        return "" + row + " - " + col;
+        return "(" + row + "," + col + ")";
     }
 
     private static Random random = new Random();

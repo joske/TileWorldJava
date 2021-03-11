@@ -37,7 +37,7 @@ public class GraphicalGridView extends JFrame implements GridView {
         scorePanel = new ScorePanel(grid);
         cont.add(scorePanel, "East");
         pack();
-        show();
+        setVisible(true);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
