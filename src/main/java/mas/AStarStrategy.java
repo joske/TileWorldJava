@@ -37,7 +37,7 @@ public class AStarStrategy implements PathStrategy {
             int direction, Location from, Location to) {
         Move m = new Move(direction);
         Location nextLoc = current.location.nextLocation(m);
-        if (grid.possibleMove(current.location, m)) {
+        if (nextLoc.equals(to) || grid.possibleMove(current.location, m)) {
             int h = nextLoc.distance(to);
             int g = current.location.distance(from) + 1;
             Node child = new Node(current, nextLoc, g, h);

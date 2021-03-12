@@ -56,9 +56,12 @@ public class Grid {
             objects[loc.row][loc.col] = a;
         }
         
+    }
+    
+    public void start() {
         view = new GraphicalGridView(this);
         //view = new TextGridView(this);
-        view.getController().startGrid();
+        view.getController().startGrid();        
     }
     
     private Obstacle createObstacle() {

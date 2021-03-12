@@ -3,28 +3,32 @@ package mas;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.List;
+
 import org.junit.Test;
 
-public class AStarStrategyTest {
+public class SearchStrategyTest {
 
     @Test
     public void testRightDown() {
         Grid g = new Grid(3, 3, 0, 0, 0, 0);
-        AStarStrategy strategy = new AStarStrategy();
+        SearchStrategy strategy = new SearchStrategy();
 
         Location from = new Location(0, 0);
         Location to = new Location(1, 1);
         Path path = strategy.generatePath(g, from, to);
         assertNotNull(path);
         assertEquals(2, path.getMoves().size());
-        assertEquals(Move.RIGHT, path.getMoves().get(0).direction);
-        assertEquals(Move.DOWN, path.getMoves().get(1).direction);
+        assertEquals(Move.DOWN, path.getMoves().get(0).direction);
+        assertEquals(Move.RIGHT, path.getMoves().get(1).direction);
+        assertEquals(to, lastLocation(from, path));
+
     }
 
     @Test
     public void testDown() {
         Grid g = new Grid(3, 3, 0, 0, 0, 0);
-        AStarStrategy strategy = new AStarStrategy();
+        SearchStrategy strategy = new SearchStrategy();
 
         Location from = new Location(0, 0);
         Location to = new Location(2, 0);
@@ -33,6 +37,7 @@ public class AStarStrategyTest {
         assertEquals(2, path.getMoves().size());
         assertEquals(Move.DOWN, path.getMoves().get(0).direction);
         assertEquals(Move.DOWN, path.getMoves().get(1).direction);
+        assertEquals(to, lastLocation(from, path));
     }
 
     @Test
@@ -44,7 +49,7 @@ public class AStarStrategyTest {
         Obstacle o = new Obstacle(1, 1);
         g.setObject(o, 1, 1);
         g.setObject(o, 1, 2);
-        AStarStrategy strategy = new AStarStrategy();
+        SearchStrategy strategy = new SearchStrategy();
 
         Location from = new Location(0, 0);
         Location to = new Location(2, 2);
@@ -55,6 +60,7 @@ public class AStarStrategyTest {
         assertEquals(Move.DOWN, path.getMoves().get(1).direction);
         assertEquals(Move.RIGHT, path.getMoves().get(2).direction);
         assertEquals(Move.RIGHT, path.getMoves().get(3).direction);
+        assertEquals(to, lastLocation(from, path));
     }
 
     @Test
@@ -66,7 +72,7 @@ public class AStarStrategyTest {
         Obstacle o = new Obstacle(1, 1);
         g.setObject(o, 1, 0);
         g.setObject(o, 1, 1);
-        AStarStrategy strategy = new AStarStrategy();
+        SearchStrategy strategy = new SearchStrategy();
 
         Location from = new Location(0, 0);
         Location to = new Location(2, 2);
@@ -77,6 +83,7 @@ public class AStarStrategyTest {
         assertEquals(Move.RIGHT, path.getMoves().get(1).direction);
         assertEquals(Move.DOWN, path.getMoves().get(2).direction);
         assertEquals(Move.DOWN, path.getMoves().get(3).direction);
+        assertEquals(to, lastLocation(from, path));
     }
 
     @Test
@@ -92,7 +99,7 @@ public class AStarStrategyTest {
         g.setObject(o, 1, 2);
         g.setObject(o, 3, 0);
         g.setObject(o, 3, 1);
-        AStarStrategy strategy = new AStarStrategy();
+        SearchStrategy strategy = new SearchStrategy();
 
         Location from = new Location(0, 0);
         Location to = new Location(3, 3);
@@ -103,8 +110,9 @@ public class AStarStrategyTest {
         assertEquals(Move.DOWN, path.getMoves().get(1).direction);
         assertEquals(Move.RIGHT, path.getMoves().get(2).direction);
         assertEquals(Move.RIGHT, path.getMoves().get(3).direction);
-        assertEquals(Move.RIGHT, path.getMoves().get(4).direction);
-        assertEquals(Move.DOWN, path.getMoves().get(5).direction);
+        assertEquals(Move.DOWN, path.getMoves().get(4).direction);
+        assertEquals(Move.RIGHT, path.getMoves().get(5).direction);
+        assertEquals(to, lastLocation(from, path));
     }
 
     @Test
@@ -120,33 +128,51 @@ public class AStarStrategyTest {
         g.setObject(o, 1, 2);
         g.setObject(o, 3, 0);
         g.setObject(o, 3, 1);
-        AStarStrategy strategy = new AStarStrategy();
+        SearchStrategy strategy = new SearchStrategy();
 
         Location to = new Location(0, 0);
         Location from = new Location(3, 3);
         Path path = strategy.generatePath(g, from, to);
         assertNotNull(path);
         assertEquals(6, path.getMoves().size());
-        assertEquals(Move.UP, path.getMoves().get(0).direction);
-        assertEquals(Move.LEFT, path.getMoves().get(1).direction);
+        assertEquals(Move.LEFT, path.getMoves().get(0).direction);
+        assertEquals(Move.UP, path.getMoves().get(1).direction);
         assertEquals(Move.LEFT, path.getMoves().get(2).direction);
         assertEquals(Move.LEFT, path.getMoves().get(3).direction);
         assertEquals(Move.UP, path.getMoves().get(4).direction);
         assertEquals(Move.UP, path.getMoves().get(5).direction);
+        assertEquals(to, lastLocation(from, path));
     }
 
     @Test
     public void testBigGrid() {
-        Grid g = new Grid(40, 40, 75, 25, 25, 1);
-
-        AStarStrategy strategy = new AStarStrategy();
+        Grid g = new Grid(40, 40, 0, 0, 0, 0);
+        // s . . o
+        // . o o .
+        // . . . .
+        // o o . e
+        Obstacle o = new Obstacle(1, 1);
+        g.setObject(o, 0, 3);
+        g.setObject(o, 1, 1);
+        g.setObject(o, 1, 2);
+        g.setObject(o, 3, 0);
+        g.setObject(o, 3, 1);
+        SearchStrategy strategy = new SearchStrategy();
 
         Location from = new Location(0, 0);
-        Location to = new Location(39, 39);
+        Location to = new Location(30, 30);
         Path path = strategy.generatePath(g, from, to);
         assertNotNull(path);
-        assertEquals(78, path.getMoves().size());
-        assertEquals(to, SearchStrategyTest.lastLocation(from, path));
+        assertEquals(60, path.getMoves().size());
+        assertEquals(to, lastLocation(from, path));
     }
 
+    public static Location lastLocation(Location from, Path path) {
+        Location current = from;
+        List<Move> moves = path.getMoves();
+        for (Move m : moves) {
+            current = current.nextLocation(m);
+        }
+        return current;
+    }
 }
