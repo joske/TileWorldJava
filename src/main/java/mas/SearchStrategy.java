@@ -58,13 +58,6 @@ public class SearchStrategy implements PathStrategy {
     }
 
     /*
-     * generate a path and return the first move
-     */
-    private Move getNextMoveFromPath(Grid grid, Location from, Location to) {
-        return null;
-    }
-
-    /*
      * get a next move towards a goal. This returns a random move 20% of the time in
      * order to avoid local minima
      */
@@ -122,10 +115,6 @@ public class SearchStrategy implements PathStrategy {
             this.cost = dd;
             this.locations.addAll(path.locations);
             this.locations.add(nextLoc);
-        }
-
-        public List<Location> getLocations() {
-            return locations;
         }
 
         public boolean hasLoop(Location nextLoc) {
