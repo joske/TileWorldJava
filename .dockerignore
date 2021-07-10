@@ -1,0 +1,13 @@
+bin
+target
+*.wmf
+Dockerfile
+.git
+.gitignore
+.dockerignore
+.DS_Store
+.classpath
+.project
+.vscode
+.settings
+.github
