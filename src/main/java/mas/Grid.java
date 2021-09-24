@@ -173,9 +173,7 @@ public class Grid {
         int minDist = Integer.MAX_VALUE;
         Hole best = null;
         
-        Iterator<Hole> it = getHoles().iterator();
-        while (it.hasNext()) {
-            Hole h = it.next();
+        for (Hole h : holes) {
             int dist = h.location.distance(l);
             if (dist < minDist) {
                 minDist = dist;
@@ -206,9 +204,7 @@ public class Grid {
 	        holes.add(newhole);
         }
         // update the agents
-        Iterator<Agent> i2 = agents.iterator();
-        while (i2.hasNext()) {
-            Agent a = i2.next();
+        for (Agent a : agents) {
             Location loc = a.getLocation();
             objects[loc.row][loc.col] = null;
             a.update();
